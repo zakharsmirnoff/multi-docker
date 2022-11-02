@@ -22,3 +22,15 @@ jobs:
           DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
           DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
         run: echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
+      - name: Building images
+        run: |
+          docker build -t zakharsmirnoff/multi-client ./client
+          docker build -t zakharsmirnoff/multi-nginx ./nginx
+          docker build -t zakharsmirnoff/multi-server ./server
+          docker build -t zakharsmirnoff/multi-worker ./worker
+      - name: Pushing images
+        run: |
+          docker push zakharsmirnoff/multi-client
+          docker push zakharsmirnoff/multi-nginx
+          docker push zakharsmirnoff/multi-server
+          docker push zakharsmirnoff/multi-worker
