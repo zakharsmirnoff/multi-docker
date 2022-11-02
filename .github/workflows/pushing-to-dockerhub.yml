@@ -10,7 +10,7 @@ jobs:
     steps:
       - name: Build a dev image
         run: | 
-          docker build -t zakharsmirnoff/react-test -f ./client/Dockerfile.dev ./client
+          docker build -t zakharsmirnoff/react-test -f /client/Dockerfile.dev /client
           docker run zakharsmirnoff/react-test npm test
         working-directory: ./
   push-images:
