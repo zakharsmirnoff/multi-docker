@@ -1,0 +1,24 @@
+name: Pushing to Dockerhub
+run-name: Testing Dockerhub push 
+on:
+  push:
+    branches:
+      - main
+jobs:
+  test-job:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Build a dev image
+        run: | 
+          docker build -t zakharsmirnoff/react-test -f ./client/Dockerfile.dev ./client
+          docker run zakharsmirnoff/react-test npm test
+        working-directory: ./
+  push-images:
+    needs: test-job
+    runs-on: ubuntu-latest
+    steps:
+      - name: Logging in to Dockerhub
+        env:
+          DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
+          DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
+        run: echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
