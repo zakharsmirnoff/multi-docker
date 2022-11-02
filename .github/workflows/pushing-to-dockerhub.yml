@@ -8,12 +8,12 @@ jobs:
   test-job:
     runs-on: ubuntu-latest
     steps:
+      - uses: actions/checkout@v3
       - name: Build a dev image
         run: | 
-          pwd
-          docker build -t zakharsmirnoff/react-test -f /client/Dockerfile.dev /client
+          echo pwd
+          docker build -t zakharsmirnoff/react-test -f ./client/Dockerfile.dev ./client
           docker run zakharsmirnoff/react-test npm test
-        working-directory: ./
   push-images:
     needs: test-job
     runs-on: ubuntu-latest
